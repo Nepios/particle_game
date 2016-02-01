@@ -1,0 +1,1 @@
+sweetAlert("Game Play", "Here's how to play the game.");
