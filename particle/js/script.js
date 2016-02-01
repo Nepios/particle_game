@@ -15,15 +15,15 @@ ctx.save();
 function Particle(){
 	this.x = canvas.width / 2;
 	this.y = canvas.height / 2;
-	this.vx = Math.random() * 10 - 5;
-	this.vy = Math.random() * 10 - 5;
-	// this.vx = 8;
-	// this.vy = 5;
+	this.vx = Math.random() * 8 - 5;
+	this.vy = Math.random() * 8 - 5;
 	particleIndex++;
 	particles[particleIndex] = this;
 	this.id = particleIndex;
 	this.life = 0;
 	this.maxLife = 800;
+	this.color = "rgba(" + parseInt(Math.random()*255, 10) + ', ' + parseInt(Math.random()*255, 10) + ', '+ parseInt(Math.random()*255, 10)+ ', 1)';
+	console.log(this.color);
 }
 Particle.prototype.draw = function(){
 	this.x += this.vx;
@@ -33,8 +33,7 @@ Particle.prototype.draw = function(){
 		delete particles[this.id];
 	}
 	ctx.beginPath();
-	ctx.fillStyle = "white";
-	// ctx.fillRect(this.x,this.y, 10,10);
+	ctx.fillStyle = this.color;
 	ctx.arc(this.x, this.y, ballRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
@@ -44,11 +43,8 @@ Particle.prototype.draw = function(){
     if(this.y + this.vy > canvas.height-ballRadius || this.y + this.vy < ballRadius) {
         this.vy = -this.vy;
     	}
-    
-    	this.x += this.vx;
+		this.x += this.vx;
     	this.y += this.vy;
-
-
 };
 
 for (var i = 0; i < particleNum; i++){
