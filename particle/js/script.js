@@ -1,4 +1,5 @@
-// context.fillRect(0, 0, canvas.width, canvas.height);
+$(document).ready(function(){
+
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var particles = {};
@@ -12,6 +13,8 @@ ctx.fillStyle = 'black';
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 ctx.save();
 
+
+
 function Particle(){
 	this.x = canvas.width / 2;
 	this.y = canvas.height / 2;
@@ -23,7 +26,6 @@ function Particle(){
 	this.life = 0;
 	this.maxLife = 800;
 	this.color = "rgba(" + parseInt(Math.random()*255, 10) + ', ' + parseInt(Math.random()*255, 10) + ', '+ parseInt(Math.random()*255, 10)+ ', 1)';
-	console.log(this.color);
 }
 Particle.prototype.draw = function(){
 	this.x += this.vx;
@@ -47,14 +49,32 @@ Particle.prototype.draw = function(){
     	this.y += this.vy;
 };
 
-for (var i = 0; i < particleNum; i++){
-	new Particle();
-};
 
-interval = setInterval(function(){
+function createInterval(){
+	for (var i = 0; i < particleNum; i++){
+		new Particle();
+	};
+	interval = setInterval(function(){
 	ctx.fillStyle = 'rgba(0,0,0,0.1)';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	for (var i in particles){
 		particles[i].draw();
 	}
 }, 20);
+
+
+};
+
+$('#start').on('click', createInterval);
+
+$('#reset').on('click', function(){
+	ctx.fillStyle = 'rgba(0,0,0,1)';
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	clearInterval(interval);
+	for (particle in particles){
+		delete particles[particle];
+	};
+
+});
+
+});
