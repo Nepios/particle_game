@@ -74,10 +74,15 @@ function bomb(x,y){
 		bombRadius++;	
 	}
 	ctx.beginPath();
-	ctx.fillStyle = "gray";
+	ctx.fillStyle = "yellow";
 	ctx.arc(coordinates[0], coordinates[1], bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
+	ctx.fillStyle = "black";
+	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 1), 0, 2 * Math.PI, true);
+	ctx.fill();
+	ctx.closePath();
+
 };
 
 
@@ -104,7 +109,7 @@ function getPosition(event){
 
 	ctx.beginPath();
 	ctx.fillStyle = 'white';
-	ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+	ctx.arc(x, y, 6, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 	return [x, y];
