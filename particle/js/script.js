@@ -74,16 +74,20 @@ function bomb(x,y){
 		bombRadius++;	
 	}
 	ctx.beginPath();
-	ctx.fillStyle = "yellow";
+	ctx.fillStyle = "#00BFFF";
 	ctx.arc(coordinates[0], coordinates[1], bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 	ctx.beginPath();
-	ctx.fillStyle = "black";
+	ctx.fillStyle = "#0000FF";
 	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 2), 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
-
+	ctx.beginPath();
+	ctx.fillStyle = "black";
+	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 4), 0, 2 * Math.PI, true);
+	ctx.fill();
+	ctx.closePath();
 };
 
 
