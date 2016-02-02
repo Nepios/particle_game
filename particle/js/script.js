@@ -58,11 +58,12 @@ Particle.prototype.draw = function(){
     	}
 	this.x += this.vx;
     this.y += this.vy;
-    bomb(coordinates[0],coordinates[1]);
+    bomb(coordinates[0],coordinates[1], "#00BFFF");
     if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
     	this.life = 1000;
     	score++;
     	$('.score').html('').html('<h4>Score is ' + score + '<h4>');
+    	bomb(this.x, this.y, this.color);
     }
  	if (bombRadius >= maxRadius){
     	play = false;
@@ -77,24 +78,24 @@ function createInterval(){
 	animate();
 };
 
-function bomb(x,y){
+function bomb(x, y, color){
 	bombCount++
 	if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
 		bombRadius++;	
 	}
 	ctx.beginPath();
-	ctx.fillStyle = "#00BFFF";
-	ctx.arc(coordinates[0], coordinates[1], bombRadius, 0, 2 * Math.PI, true);
+	ctx.fillStyle = color;
+	ctx.arc(x, y, bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
-	ctx.beginPath();
-	ctx.fillStyle = "#0000FF";
-	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 2), 0, 2 * Math.PI, true);
-	ctx.fill();
-	ctx.closePath();
+	// ctx.beginPath();
+	// ctx.fillStyle = "#0000FF";
+	// ctx.arc(coordinates[0], coordinates[1], (bombRadius - 2), 0, 2 * Math.PI, true);
+	// ctx.fill();
+	// ctx.closePath();
 	ctx.beginPath();
 	ctx.fillStyle = "black";
-	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 4), 0, 2 * Math.PI, true);
+	ctx.arc(x, y, (bombRadius - 4), 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 	return bombRadius;
@@ -106,7 +107,7 @@ function animate(){
 	for (var i in particles){
 		particles[i].draw();
 	}
-	bomb(coordinates[0],coordinates[1]);
+	bomb(coordinates[0],coordinates[1], "#00BFFF");
 	if (play){
 	requestAnimationFrame(animate);
 	} else {
@@ -156,8 +157,6 @@ $('#reset').on('click', function(){
 	if ((score > highScore) || (highScore === undefined)){
 		localStorage.highScore = score;
 		highScore = localStorage.highScore;
-		console.log(highScore);
-		console.log(localStorage.highScore);
 		$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
 	}
 	score = 0;
