@@ -5,11 +5,11 @@ var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var particles = {};
 var particleIndex = 0;
-var particleNum = 30;
+var particleNum = 40;
 var ballRadius = 3;
 var bombRadius = 5;
 var bombCount = 0;
-var maxRadius = 60;
+var maxRadius = 75;
 var score = 0;
 var highScore = localStorage.highScore;
 var coordinates = [];
@@ -95,7 +95,7 @@ function bomb(x, y, color){
 	// ctx.closePath();
 	ctx.beginPath();
 	ctx.fillStyle = "black";
-	ctx.arc(x, y, (bombRadius - 4), 0, 2 * Math.PI, true);
+	ctx.arc(x, y, (bombRadius - 2), 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 	return bombRadius;
@@ -146,9 +146,12 @@ $('#start').on('click', function(){
 	if (play == false){
 		sweetAlert("Please press reset and then play to start a new game.");
 	} else{
+		if (highScore === undefined){	
+			$('.highscore').html('').html('<h4>High Score is 0<h4>');
+		} else
 	$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
 	createInterval();
-}
+	}
 });
 
 $('#reset').on('click', function(){
@@ -169,5 +172,9 @@ $('#reset').on('click', function(){
 	ctx.closePath();
 	ctx.beginPath();
 });
+$('#info').on('click', function(){
+	sweetAlert("How to Play", "Click on start to initiate the particles, then click anywhere in the box to deploy a bomb and try to take out as many particles as possible.");
+});
+
 });
 
