@@ -78,8 +78,9 @@ function bomb(x,y){
 	ctx.arc(coordinates[0], coordinates[1], bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
+	ctx.beginPath();
 	ctx.fillStyle = "black";
-	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 1), 0, 2 * Math.PI, true);
+	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 2), 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 
