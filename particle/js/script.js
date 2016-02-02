@@ -1,25 +1,31 @@
 $(document).ready(function(){
 
+var play = true;
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 var particles = {};
 var particleIndex = 0;
 var particleNum = 30;
-var interval;
 var ballRadius = 3;
+var coordinates = [];
+var requestAnimationFrame =  
+        window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        function(callback) {
+          return setTimeout(callback, 1);
+        };
 canvas.width = 800;
 canvas.height= 400;
-ctx.fillStyle = 'black';
-ctx.fillRect(0, 0, canvas.width, canvas.height);
-ctx.save();
-
 
 
 function Particle(){
 	this.x = canvas.width / 2;
 	this.y = canvas.height / 2;
-	this.vx = Math.random() * 8 - 5;
-	this.vy = Math.random() * 8 - 5;
+	this.vx = Math.random() * 7 - 5;
+	this.vy = Math.random() * 7 - 5;
 	particleIndex++;
 	particles[particleIndex] = this;
 	this.id = particleIndex;
@@ -47,34 +53,81 @@ Particle.prototype.draw = function(){
     	}
 		this.x += this.vx;
     	this.y += this.vy;
+    	bomb(coordinates[0],coordinates[1], "white");
 };
 
 
 function createInterval(){
+	play = true;
 	for (var i = 0; i < particleNum; i++){
 		new Particle();
 	};
-	interval = setInterval(function(){
+	animate();
+};
+
+function bomb(x,y, color){
+	ctx.beginPath();
+	ctx.fillStyle = color;
+	ctx.arc(coordinates[0], coordinates[1], 5, 0, 2 * Math.PI, true);
+	ctx.fill();
+	ctx.closePath();
+};
+
+
+function animate(){
 	ctx.fillStyle = 'rgba(0,0,0,0.1)';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	for (var i in particles){
 		particles[i].draw();
 	}
-}, 20);
+	bomb(coordinates[0],coordinates[1], "white");
+	if (play){
+	requestAnimationFrame(animate);
+	} else {
+		clearCanvas();
+	}
+};
 
+function getPosition(event){
+	x = event.x;
+	y = event.y;
+	var rect = canvas.getBoundingClientRect();
+    x = event.x- rect.left;
+    y = event.y - rect.top;
+
+	ctx.beginPath();
+	ctx.fillStyle = 'white';
+	ctx.arc(x, y, 5, 0, 2 * Math.PI, true);
+	ctx.fill();
+	ctx.closePath();
+	return [x, y];
 
 };
+
+function clearCanvas(){
+	ctx.beginPath();
+	ctx.fillStyle = 'rgba(0,0,0,1)';
+	ctx.fillRect(0, 0, 800, 400);
+
+};
+
+canvas.addEventListener("click", function(event){
+	coordinates = getPosition(event);
+}, false);
 
 $('#start').on('click', createInterval);
 
 $('#reset').on('click', function(){
-	ctx.fillStyle = 'rgba(0,0,0,1)';
-	ctx.fillRect(0, 0, canvas.width, canvas.height);
-	clearInterval(interval);
+	play = false;
+	coordinates = [];
 	for (particle in particles){
 		delete particles[particle];
 	};
+	clearCanvas();
+	ctx.closePath();
+	ctx.beginPath();
+});
+
 
 });
 
-});
