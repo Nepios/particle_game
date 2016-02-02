@@ -145,7 +145,7 @@ $('#start').on('click', function(){
 	if (play == false){
 		sweetAlert("Please press reset and then play to start a new game.");
 	} else{
-
+	$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
 	createInterval();
 }
 });
@@ -157,6 +157,7 @@ $('#reset').on('click', function(){
 		localStorage.highScore = score;
 		highScore = localStorage.highScore;
 		console.log(highScore);
+		console.log(localStorage.highScore);
 		$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
 	}
 	score = 0;
