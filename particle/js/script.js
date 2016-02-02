@@ -9,7 +9,7 @@ var particleNum = 30;
 var ballRadius = 3;
 var bombRadius = 5;
 var bombCount = 0;
-var maxRadius = 50;
+var maxRadius = 60;
 var score = 0;
 var coordinates = [];
 var requestAnimationFrame =  
@@ -34,7 +34,7 @@ function Particle(){
 	particles[particleIndex] = this;
 	this.id = particleIndex;
 	this.life = 0;
-	this.maxLife = 800;
+	this.maxLife = 1000;
 	this.color = "rgba(" + parseInt(Math.random()*255, 10) + ', ' + parseInt(Math.random()*255, 10) + ', '+ parseInt(Math.random()*255, 10)+ ', 1)';
 }
 Particle.prototype.draw = function(){
@@ -49,35 +49,30 @@ Particle.prototype.draw = function(){
 	ctx.arc(this.x, this.y, ballRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
-	 if(this.x + this.vx > canvas.width-ballRadius || this.x + this.vx < ballRadius) {
+	if(this.x + this.vx > canvas.width-ballRadius || this.x + this.vx < ballRadius) {
         this.vx = -this.vx;
     	}
     if(this.y + this.vy > canvas.height-ballRadius || this.y + this.vy < ballRadius) {
         this.vy = -this.vy;
     	}
-		this.x += this.vx;
-    	this.y += this.vy;
-    	bomb(coordinates[0],coordinates[1]);
+	this.x += this.vx;
+    this.y += this.vy;
+    bomb(coordinates[0],coordinates[1]);
     if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
-    	this.life = 800;
+    	this.life = 1000;
     	score++;
     	$('.score').html('').html('<h4>Score is ' + score + '<h4>');
     }
  	if (bombRadius >= maxRadius){
     	play = false;
-
     }   
-
-
 };
-
 
 function createInterval(){
 	play = true;
 	for (var i = 0; i < particleNum; i++){
 		new Particle();
 	};
-
 	animate();
 };
 
@@ -103,7 +98,6 @@ function bomb(x,y){
 	ctx.closePath();
 	return bombRadius;
 };
-
 
 function animate(){
 	ctx.fillStyle = 'rgba(0,0,0,0.1)';
@@ -146,10 +140,18 @@ canvas.addEventListener("click", function(event){
 	coordinates = getPosition(event);
 }, false);
 
-$('#start').on('click', createInterval);
+$('#start').on('click', function(){
+	if (play == false){
+		sweetAlert("Please press reset and then play to start a new game.");
+	} else{
+
+	createInterval();
+}
+});
 
 $('#reset').on('click', function(){
-	play = false;
+	play = true;
+	score = 0;
 	bombRadius = 5;
 	coordinates = [];
 	for (particle in particles){
@@ -159,7 +161,5 @@ $('#reset').on('click', function(){
 	ctx.closePath();
 	ctx.beginPath();
 });
-
-
 });
 
