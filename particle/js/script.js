@@ -7,6 +7,8 @@ var particles = {};
 var particleIndex = 0;
 var particleNum = 30;
 var ballRadius = 3;
+var bombRadius = 5;
+var bombCount = 0;
 var coordinates = [];
 var requestAnimationFrame =  
         window.requestAnimationFrame ||
@@ -53,7 +55,7 @@ Particle.prototype.draw = function(){
     	}
 		this.x += this.vx;
     	this.y += this.vy;
-    	bomb(coordinates[0],coordinates[1], "white");
+    	bomb(coordinates[0],coordinates[1]);
 };
 
 
@@ -65,10 +67,15 @@ function createInterval(){
 	animate();
 };
 
-function bomb(x,y, color){
+function bomb(x,y){
+	bombCount++
+	console.log(bombCount);
+	if ((bombCount % 200 === 0) && (bombRadius <=80)){
+		bombRadius++;	
+	}
 	ctx.beginPath();
-	ctx.fillStyle = color;
-	ctx.arc(coordinates[0], coordinates[1], 5, 0, 2 * Math.PI, true);
+	ctx.fillStyle = "gray";
+	ctx.arc(coordinates[0], coordinates[1], bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
 };
@@ -80,7 +87,7 @@ function animate(){
 	for (var i in particles){
 		particles[i].draw();
 	}
-	bomb(coordinates[0],coordinates[1], "white");
+	bomb(coordinates[0],coordinates[1]);
 	if (play){
 	requestAnimationFrame(animate);
 	} else {
@@ -119,6 +126,7 @@ $('#start').on('click', createInterval);
 
 $('#reset').on('click', function(){
 	play = false;
+	bombRadius = 5;
 	coordinates = [];
 	for (particle in particles){
 		delete particles[particle];
