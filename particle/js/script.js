@@ -9,6 +9,8 @@ var particleNum = 30;
 var ballRadius = 3;
 var bombRadius = 5;
 var bombCount = 0;
+var maxRadius = 70;
+var score = 0;
 var coordinates = [];
 var requestAnimationFrame =  
         window.requestAnimationFrame ||
@@ -26,8 +28,8 @@ canvas.height= 400;
 function Particle(){
 	this.x = canvas.width / 2;
 	this.y = canvas.height / 2;
-	this.vx = Math.random() * 7 - 5;
-	this.vy = Math.random() * 7 - 5;
+	this.vx = Math.random() * 7 - 6;
+	this.vy = Math.random() * 7 - 6;
 	particleIndex++;
 	particles[particleIndex] = this;
 	this.id = particleIndex;
@@ -56,6 +58,18 @@ Particle.prototype.draw = function(){
 		this.x += this.vx;
     	this.y += this.vy;
     	bomb(coordinates[0],coordinates[1]);
+    if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
+    	console.log (this);
+    	this.life = 800;
+    	score++;
+    	console.log(score);
+    }
+ 	if (bombRadius >= maxRadius){
+    	play = false;
+
+    }   
+
+
 };
 
 
@@ -64,13 +78,13 @@ function createInterval(){
 	for (var i = 0; i < particleNum; i++){
 		new Particle();
 	};
+
 	animate();
 };
 
 function bomb(x,y){
 	bombCount++
-	console.log(bombCount);
-	if ((bombCount % 200 === 0) && (bombRadius <=80)){
+	if ((bombCount % 200 === 0) && (bombRadius <=maxRadius)){
 		bombRadius++;	
 	}
 	ctx.beginPath();
@@ -88,6 +102,7 @@ function bomb(x,y){
 	ctx.arc(coordinates[0], coordinates[1], (bombRadius - 4), 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
+	return bombRadius;
 };
 
 
