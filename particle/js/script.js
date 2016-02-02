@@ -11,6 +11,7 @@ var bombRadius = 5;
 var bombCount = 0;
 var maxRadius = 60;
 var score = 0;
+var highScore = localStorage.highScore;
 var coordinates = [];
 var requestAnimationFrame =  
         window.requestAnimationFrame ||
@@ -151,6 +152,13 @@ $('#start').on('click', function(){
 
 $('#reset').on('click', function(){
 	play = true;
+	$('.score').html('').html('<h4>Score is 0<h4>');
+	if ((score > highScore) || (highScore === undefined)){
+		localStorage.highScore = score;
+		highScore = localStorage.highScore;
+		console.log(highScore);
+		$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
+	}
 	score = 0;
 	bombRadius = 5;
 	coordinates = [];
