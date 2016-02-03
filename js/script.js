@@ -15,6 +15,8 @@ var score = 0;
 var score2 = 0;
 var extraballs = false;
 var player = 0;
+var explosion = {};
+var explosionIndex = 0;
 var highScore = localStorage.highScore;
 var coordinates = [];
 var requestAnimationFrame =  
@@ -71,7 +73,7 @@ Particle.prototype.draw = function(){
     // test for collisions between the bomb and the particles
     if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
     	this.life = 1000;
-    		bomb(this.x, this.y, this.color);
+    		new Explosion(this.x, this.y, this.color);
      	if (player % 2 === 0){
     		score2++;
     		$('.score-2').html('').html('<h4>Player 2: ' + score2+ '<h4>');	
@@ -81,11 +83,33 @@ Particle.prototype.draw = function(){
     	}	
     }
 
+    // create chain reaction explosions
+    if (explosion === {}){
+	    for (var k in explosions){
+	    	if ((Math.sqrt(Math.pow((this.x-explosions[k].x), 2) + (Math.pow((this.y-explosions[k].x), 2)))) <= bombRadius) {
+	    	this.life = 1000;
+	    		console.log(chainreaction);
+	    		new Explosion(this.x, this.y, this.color);
+	    	}
+		}
+	}
     // stop animation once the bomb reaches maxRadius
  	if (bombRadius >= maxRadius){
  		getWinner();
     	play = false;
        }
+};
+
+// use constructor to create explosions
+function Explosion (x, y, color){
+	this.x = x;
+	this.y = y;
+	this.color = color;
+	explosionIndex++;
+	explosion[explosionIndex] = this;
+	this.id = particleIndex;
+	bomb(x,y,color);
+
 };
 
 // determine the winner
@@ -110,7 +134,7 @@ function createParticle(){
 function bomb(x, y, color){
 	bombCount++
 	if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
-		bombRadius++;	
+		bombRadius += .5;	
 	}
 	ctx.beginPath();
 	ctx.fillStyle = color;
@@ -133,6 +157,9 @@ function animate(){
 		particles[i].draw();
 	}
 	bomb(coordinates[0],coordinates[1], "#00BFFF");
+	for (var j in explosion){
+		bomb(explosion[j].x, explosion[j].y, explosion[j].color);
+	}
 	if (play){
 	requestAnimationFrame(animate);
 	} else {
@@ -226,6 +253,7 @@ $('#reset').on('click', function(){
 	extraballs = false;
 	bombRadius = 5;
 	coordinates = [];
+	explosion = {};
 	// delete any remaining particles from the canvase
 	for (particle in particles){
 		delete particles[particle];
