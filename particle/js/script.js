@@ -71,14 +71,13 @@ Particle.prototype.draw = function(){
     // test for collisions between the bomb and the particles
     if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
     	this.life = 1000;
-    	bomb(this.x, this.y, this.color);
+    		bomb(this.x, this.y, this.color);
      	if (player % 2 === 0){
     		score2++;
-    		alert("player 2");
-    	$('.score-2').html('').html('<h4>Player 2: ' + score2+ '<h4>');	
+    		$('.score-2').html('').html('<h4>Player 2: ' + score2+ '<h4>');	
     	}else {
     		score++;
-    	$('.score-1').html('').html('<h4>Player 1: ' + score + '<h4>');
+    		$('.score-1').html('').html('<h4>Player 1: ' + score + '<h4>');
     	}	
     }
 
@@ -110,7 +109,7 @@ function createParticle(){
 // draw the bomb on the screen and increase radius over time
 function bomb(x, y, color){
 	bombCount++
-		if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
+	if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
 		bombRadius++;	
 	}
 	ctx.beginPath();
