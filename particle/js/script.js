@@ -91,9 +91,9 @@ Particle.prototype.draw = function(){
 // determine the winner
 function getWinner(){
     if ((player % 2 == 0) && (score > score2)){
-    	sweetAlert("Player 1 is the winner!");
+    	sweetAlert("Player 1 is the winner!", "Click reset and start to play another game.");
     } else if ((player % 2 == 0) && (score < score2)){
-    	sweetAlert("Player 2 is the winner!");
+    	sweetAlert("Player 2 is the winner!", "Click reset and start to play another game.");
     }
 
 };
