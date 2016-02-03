@@ -182,8 +182,8 @@ $('#start').on('click', function(){
 			$('.score-2').css('background-color', 'red');
 	     	$('.score-1').css('background-color', 'black');
 		} else {
-			$('.score-1').css('background-color', '').css('background-color', 'red');
-	     	$('.score-2').css('background-color', '').css('background-color', 'black');
+			$('.score-1').css('background-color', 'red');
+	     	$('.score-2').css('background-color', 'black');
 		}
 		createInterval();
 	}
