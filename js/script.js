@@ -143,8 +143,9 @@ function bomb(x, y, color){
 	if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
 		bombRadius += .5;	
 	}
-	ctx.beginPath();
+
 	ctx.fillStyle = color;
+	ctx.beginPath();
 	ctx.arc(x, y, bombRadius, 0, 2 * Math.PI, true);
 	ctx.fill();
 	ctx.closePath();
