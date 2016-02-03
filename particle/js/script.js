@@ -11,6 +11,7 @@ var bombRadius = 5;
 var bombCount = 0;
 var maxRadius = 75;
 var score = 0;
+var extraballs = false;
 var highScore = localStorage.highScore;
 var coordinates = [];
 var requestAnimationFrame =  
@@ -80,6 +81,7 @@ function createInterval(){
 
 function bomb(x, y, color){
 	bombCount++
+	
 	if ((bombCount % 200 === 0) && (bombRadius <= maxRadius)){
 		bombRadius++;	
 	}
@@ -148,14 +150,20 @@ $('#start').on('click', function(){
 	} else{
 		if (highScore === undefined){	
 			$('.highscore').html('').html('<h4>High Score is 0<h4>');
-		} else
-	$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
-	createInterval();
+		} else {
+			$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
+		}
+	}	
+	if (extraballs === false){
+		extraballs = true;
+		createInterval();
 	}
+
 });
 
 $('#reset').on('click', function(){
 	play = true;
+	extraballs = false;
 	$('.score').html('').html('<h4>Score is 0<h4>');
 	if ((score > highScore) || (highScore === undefined)){
 		localStorage.highScore = score;
