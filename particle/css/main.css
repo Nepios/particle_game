@@ -1,7 +1,7 @@
 body {
 	background-color: #181818;
 	color: white;
-	background-image: url("http://wallpapercave.com/wp/xX2GRj6.gif");
+	background-image: url('../images/star-background.gif');
 }
 
 canvas {
@@ -17,14 +17,12 @@ button {
 .score-1 {
 	background-color: black;
 	color: white;
-/*	margin: 0 auto;*/
 	border: 2px solid white;
 	text-align: center;
 }
 .highscore {
 	background-color: black;
 	color: white;
-/*	margin: 0 auto;*/
 	border: 2px solid white;
 	text-align: center;
 }
@@ -32,7 +30,6 @@ button {
 .score-2 {
 	background-color: black;
 	color: white;
-/*	margin: 0 auto;*/
 	border: 2px solid white;
 	text-align: center;
 }

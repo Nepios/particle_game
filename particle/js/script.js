@@ -1,4 +1,5 @@
 $(document).ready(function(){
+
 //initialize variables and canvas parameters
 var play = true;
 var canvas = document.getElementById("myCanvas");
@@ -139,6 +140,7 @@ function animate(){
 		clearCanvas();
 	}
 };
+
 // get the position of the mouse to place the bomb on the canvas
 function getPosition(event){
 	x = event.x;
@@ -152,7 +154,6 @@ function getPosition(event){
 	ctx.fill();
 	ctx.closePath();
 	return [x, y];
-
 };
 
 // clear the canvas of all particles and bomb
@@ -160,7 +161,6 @@ function clearCanvas(){
 	ctx.beginPath();
 	ctx.fillStyle = 'rgba(0,0,0,1)';
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
-
 };
 
 // add event listener to the canvas for bomb placement
@@ -198,7 +198,6 @@ $('#start').on('click', function(){
 		// create particles
 		createParticle();
 	}
-
 });
 
 // add eventlistener for click of reset button and clear the canvas
@@ -222,6 +221,7 @@ $('#reset').on('click', function(){
 		score = 0;
 		score2 = 0;
 	}
+
 	// reset variables so game play will start again
 	play = true;
 	extraballs = false;
@@ -239,6 +239,5 @@ $('#reset').on('click', function(){
 $('#info').on('click', function(){
 	sweetAlert("How to Play", "Click on start to initiate the particles, then click anywhere in the box to deploy a bomb and try to take out as many particles as possible.");
 });
-
 });
 
