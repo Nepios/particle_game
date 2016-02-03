@@ -11,7 +11,9 @@ var bombRadius = 5;
 var bombCount = 0;
 var maxRadius = 75;
 var score = 0;
+var score2 = 0;
 var extraballs = false;
+var player = 0;
 var highScore = localStorage.highScore;
 var coordinates = [];
 var requestAnimationFrame =  
@@ -62,13 +64,33 @@ Particle.prototype.draw = function(){
     bomb(coordinates[0],coordinates[1], "#00BFFF");
     if ((Math.sqrt(Math.pow((this.x-coordinates[0]), 2) + (Math.pow((this.y-coordinates[1]), 2)))) <= bombRadius) {
     	this.life = 1000;
-    	score++;
-    	$('.score').html('').html('<h4>Score is ' + score + '<h4>');
     	bomb(this.x, this.y, this.color);
+     	if (player % 2 === 0){
+    		score2++;
+    		alert("player 2");
+    	$('.score-2').html('').html('<h4>Player 2: ' + score2+ '<h4>');	
+    	}else {
+    		score++;
+    	$('.score-1').html('').html('<h4>Player 1: ' + score + '<h4>');
+    	}	
     }
+
  	if (bombRadius >= maxRadius){
+ 		getWinner();
     	play = false;
-    }   
+       }
+};
+
+function getWinner(){
+	console.log("getwinner");
+	console.log("score" + (score > score2));
+	console.log("player" + (player % 2 == 0))
+    if ((player % 2 == 0) && (score > score2)){
+    	sweetAlert("player 1 is the winner");
+    } else if ((player % 2 == 0) && (score < score2)){
+    	sweetAlert("Player 2 is the winner");
+    }
+
 };
 
 function createInterval(){
@@ -156,6 +178,7 @@ $('#start').on('click', function(){
 	}	
 	if (extraballs === false){
 		extraballs = true;
+		player++;
 		createInterval();
 	}
 
@@ -164,13 +187,21 @@ $('#start').on('click', function(){
 $('#reset').on('click', function(){
 	play = true;
 	extraballs = false;
-	$('.score').html('').html('<h4>Score is 0<h4>');
 	if ((score > highScore) || (highScore === undefined)){
 		localStorage.highScore = score;
 		highScore = localStorage.highScore;
 		$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
+	} else if ((score2 > highScore) || (highScore === undefined)){
+		localStorage.highScore = score2;
+		highScore = localStorage.highScore;
+		$('.highscore').html('').html('<h4>High Score is ' + highScore +'<h4>');
 	}
-	score = 0;
+	if (player % 2 === 0){
+		$('.score-1').html('').html('<h4>Player 1: 0<h4>');
+		$('.score-2').html('').html('<h4>Player 2: 0<h4>');
+		score = 0;
+		score2 = 0;
+	}
 	bombRadius = 5;
 	coordinates = [];
 	for (particle in particles){

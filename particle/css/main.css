@@ -14,7 +14,7 @@ button {
 	margin: 20px 5px 20px 5px;
 }
 
-.score {
+.score-1 {
 	background-color: black;
 	color: white;
 /*	margin: 0 auto;*/
@@ -22,6 +22,14 @@ button {
 	text-align: center;
 }
 .highscore {
+	background-color: black;
+	color: white;
+/*	margin: 0 auto;*/
+	border: 2px solid white;
+	text-align: center;
+}
+
+.score-2 {
 	background-color: black;
 	color: white;
 /*	margin: 0 auto;*/
