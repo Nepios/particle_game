@@ -10,10 +10,11 @@ var particleNum = 40;
 var ballRadius = 3;
 var bombRadius = 5;
 var bombCount = 0;
-var maxRadius = 75;
+var maxRadius = 70;
 var score = 0;
 var score2 = 0;
 var extraballs = false;
+var bombdeploy = false;
 var player = 0;
 var explosion = {};
 var explosionIndex = 0;
@@ -84,15 +85,21 @@ Particle.prototype.draw = function(){
     }
 
     // create chain reaction explosions
-    if (explosion === {}){
-	    for (var k in explosions){
-	    	if ((Math.sqrt(Math.pow((this.x-explosions[k].x), 2) + (Math.pow((this.y-explosions[k].x), 2)))) <= bombRadius) {
-	    	this.life = 1000;
-	    		console.log(chainreaction);
-	    		new Explosion(this.x, this.y, this.color);
-	    	}
-		}
-	}
+ //    if (explosion !== {}){
+	//     for (var k in explosion){
+	//     	if ((Math.sqrt(Math.pow((this.x-explosion[k].x), 2) + (Math.pow((this.y-explosion[k].x), 2)))) <= bombRadius) {
+	//     		this.life = 1000;
+	//     		new Explosion(this.x, this.y, this.color);
+	//      	if (player % 2 === 0){
+	//     		score2++;
+	//     		$('.score-2').html('').html('<h4>Player 2: ' + score2+ '<h4>');	
+	//     	}else {
+	//     		score++;
+	//     		$('.score-1').html('').html('<h4>Player 1: ' + score + '<h4>');
+	// 	    	}
+	// 	    }
+	// 	}
+	// }
     // stop animation once the bomb reaches maxRadius
  	if (bombRadius >= maxRadius){
  		getWinner();
@@ -169,17 +176,21 @@ function animate(){
 
 // get the position of the mouse to place the bomb on the canvas
 function getPosition(event){
-	x = event.x;
-	y = event.y;
-	var rect = canvas.getBoundingClientRect();
-    x = event.x- rect.left;
-    y = event.y - rect.top;
-	ctx.beginPath();
-	ctx.fillStyle = 'white';
-	ctx.arc(x, y, 6, 0, 2 * Math.PI, true);
-	ctx.fill();
-	ctx.closePath();
-	return [x, y];
+	if (bombdeploy === false){
+		x = event.x;
+		y = event.y;
+		var rect = canvas.getBoundingClientRect();
+		x = event.x- rect.left;
+		y = event.y - rect.top;
+		ctx.beginPath();
+		ctx.fillStyle = 'white';
+		ctx.arc(x, y, 6, 0, 2 * Math.PI, true);
+		ctx.fill();
+		ctx.closePath();
+		return [x, y];
+	} else {
+		return [coordinates[0], coordinates[1]];
+	}
 };
 
 // clear the canvas of all particles and bomb
@@ -192,6 +203,7 @@ function clearCanvas(){
 // add event listener to the canvas for bomb placement
 canvas.addEventListener("click", function(event){
 	coordinates = getPosition(event);
+	bombdeploy = true;
 }, false);
 
 // add event listener for click of the start button
@@ -254,6 +266,7 @@ $('#reset').on('click', function(){
 	bombRadius = 5;
 	coordinates = [];
 	explosion = {};
+	bombdeploy = false;
 	// delete any remaining particles from the canvase
 	for (particle in particles){
 		delete particles[particle];
