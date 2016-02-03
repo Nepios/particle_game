@@ -82,13 +82,10 @@ Particle.prototype.draw = function(){
 };
 
 function getWinner(){
-	console.log("getwinner");
-	console.log("score" + (score > score2));
-	console.log("player" + (player % 2 == 0))
     if ((player % 2 == 0) && (score > score2)){
-    	sweetAlert("player 1 is the winner");
+    	sweetAlert("Player 1 is the winner!");
     } else if ((player % 2 == 0) && (score < score2)){
-    	sweetAlert("Player 2 is the winner");
+    	sweetAlert("Player 2 is the winner!");
     }
 
 };
@@ -165,6 +162,8 @@ function clearCanvas(){
 canvas.addEventListener("click", function(event){
 	coordinates = getPosition(event);
 }, false);
+$('player1').show();
+$('player2').hide();
 
 $('#start').on('click', function(){
 	if (play == false){
@@ -179,6 +178,13 @@ $('#start').on('click', function(){
 	if (extraballs === false){
 		extraballs = true;
 		player++;
+		if (player % 2 === 0){
+			$('.score-2').css('background-color', 'red');
+	     	$('.score-1').css('background-color', 'black');
+		} else {
+			$('.score-1').css('background-color', '').css('background-color', 'red');
+	     	$('.score-2').css('background-color', '').css('background-color', 'black');
+		}
 		createInterval();
 	}
 
