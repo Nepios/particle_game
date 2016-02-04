@@ -8,9 +8,9 @@ This is a browser-based game employing javascript canvas to draw the circlular b
 * Winner is determined and displayed in a pop-up
 
 ##Credits
-* jQuery
-* Sweet Alert
-* Bootstrap
+* [jQuery](https://jquery.com/)
+* [Sweet Alert](http://t4t5.github.io/sweetalert/)
+* [Bootstrap](http://getbootstrap.com/)
 
 ##Known Issues
-The particles are destroyed based on the placement of the original bomb, not the subsequent explosions, so some particles pass through the edge of the mass of circles.
+The particles are destroyed based on the placement of the original bomb, not the subsequent explosions, so some particles pass through the edge of the mass of circles. Also the app is not optimized for mobile.
